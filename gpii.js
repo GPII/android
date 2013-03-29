@@ -13,8 +13,9 @@ https://github.com/gpii/universal/LICENSE.txt
 var fluid = require("universal"),
     gpii = fluid.registerNamespace("gpii");
 
-// TODO Check on making the configPath relative to something.
+// For Android, if we don't explicity use the __dirname on the configPath
+// we end up getting something like /node_modules/universal/gpii/configs/file.json'
 gpii.config.makeConfigLoader({
     nodeEnv: gpii.config.getNodeEnv("fm.ps.sr.dr.mm.os.development"),
-    configPath: "/sdcard/gpii/node_modules/universal/gpii/configs"
+    configPath: gpii.config.getConfigPath() || __dirname+"/../node_modules/universal/gpii/configs"
 });
