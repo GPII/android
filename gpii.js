@@ -13,6 +13,8 @@ https://github.com/gpii/universal/LICENSE.txt
 var fluid = require("universal"),
     gpii = fluid.registerNamespace("gpii");
 
+fluid.require("activitymanager", require);
+
 // For Android, if we don't explicity use the __dirname on the configPath
 // we end up getting something like /node_modules/universal/gpii/configs/file.json'
 gpii.config.makeConfigLoader({
