@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GpiiActivity</string>
+
+    <!-- Lifted from Anode sgithens 2013-07-07 -->
+    <!-- <string name="app_name">Anode</string> -->
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="arguments">Arguments:</string>
+    <string name="run_state">Run state</string>
+    <string name="created">Created</string>
+    <string name="started">Started</string>
+    <string name="stopping">Stopping</string>
+    <string name="stopped">Stopped</string>
+    <string name="anode_receiver">Anode Receiver</string>
+    <string name="anode_receiver_description">A broadcast receiver for controlling invocations of node.js</string>
+    <string name="anode_service">Anode Service</string>
+    <string name="anode_service_description">A service that permits the running of node.js invocations in the background</string>
+
+</resources>
