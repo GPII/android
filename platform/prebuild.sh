@@ -1,7 +1,11 @@
 #!/bin/bash
 
 # Clone anode
-git clone git://github.com/paddybyers/anode.git
+if [ -d 'anode' ]; then
+    echo 'Anode already checked out'
+else
+    git clone git://github.com/paddybyers/anode.git
+fi
 
 # Issue a warning if you don't have ANDROID_HOME set
 
