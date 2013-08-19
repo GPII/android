@@ -34,8 +34,4 @@ adb shell 'mkdir -p /sdcard/gpii/node_modules'
 adb push $universal '/sdcard/gpii/node_modules/universal'
 adb push gpii.js /sdcard/gpii/
 
-echo "Going to fetch and install the node apk"
-curl -O https://raw.github.com/sgithens/gpii-android-test/master/AnodeActivity.apk
-
-echo "Installing APK to device"
-adb install AnodeActivity.apk
+adb install platform/app/bin/GpiiApp-debug.apk
