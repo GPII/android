@@ -6,8 +6,23 @@ GPII on Android
 Build Steps
 ===========
 
+'''shell
+# clone this module
+export ANDROID_HOME=/path/to/your/adt-bundle-linux/sdk/
+cd platform
+./prebuild.sh
+cd app
+ant debug
+cd ../..
+./install-to-device.sh
+./android-gpii.sh start
+'''
+
+What happens during the build
+=============================
+
 What follows is a general list of what is happening when we build this 
-project.
+nproject.
 
 - The gpii android module containing this readme file is clone with git.
 - Initial work is performed in the platform directory, starting with fetching
@@ -27,3 +42,9 @@ project.
 - The first time running, you need to manually start the Gpii activity. ( This
   will be fixed in the future )
 - Then we can start the GPII via intent.
+
+Notes
+=====
+
+- Currently, the main activity screen must be launched for the broadcast 
+  intent that starts GPII to work.
