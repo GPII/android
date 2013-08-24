@@ -7,14 +7,16 @@ Build Steps
 ===========
 
 '''shell
-# clone this module
+# clone this android module and cd in to it.
 export ANDROID_HOME=/path/to/your/adt-bundle-linux/sdk/
 cd platform
 ./prebuild.sh
 cd app
 ant debug
+adb install ./bin/GpiiApp-debug.apk
 cd ../..
-./install-to-device.sh
+./android-gpii.sh get-universal
+./android-gpii.sh install-js
 ./android-gpii.sh start
 '''
 
@@ -22,7 +24,7 @@ What happens during the build
 =============================
 
 What follows is a general list of what is happening when we build this 
-nproject.
+project.
 
 - The gpii android module containing this readme file is clone with git.
 - Initial work is performed in the platform directory, starting with fetching

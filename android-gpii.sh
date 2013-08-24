@@ -16,7 +16,7 @@ repoURL="git://github.com/GPII/universal.git"
 android_gpii_dir=$(pwd)
 
 function gpii-start {
-    #adb shell am start -c android.intent.category.LAUNCHER -a android.intent.action.MAIN -c android.intent.category.LAUNCHER 'net.gpii.app/net.gpii.app.GpiiActivity'
+    #adb shell am start -W -c android.intent.category.LAUNCHER -a android.intent.action.MAIN -c android.intent.category.LAUNCHER 'net.gpii.app/net.gpii.app.GpiiActivity'
     adb shell am broadcast -a org.meshpoint.anode.START -e cmdline '/sdcard/gpii/android/gpii.js'
 }
 
@@ -25,7 +25,15 @@ function gpii-stopall {
 }
 
 function gpii-help {
-    echo "Print the help here..."
+    echo "android-gpii utilities
+
+Commands:
+start - Starting gpii on the device
+stop - Stop all node.js instances on device
+help - Show this help
+get-universal - clone the universal code and install it's dependencies
+install-js - Install the gpii node.js code to the sdcard
+"
 }
 
 function gpii-get-universal-code {
