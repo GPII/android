@@ -16,7 +16,7 @@ repoURL="git://github.com/GPII/universal.git"
 android_gpii_dir=$(pwd)
 
 function gpii-start {
-    #adb shell am start -W -c android.intent.category.LAUNCHER -a android.intent.action.MAIN -c android.intent.category.LAUNCHER 'net.gpii.app/net.gpii.app.GpiiActivity'
+    adb shell am start -W -c android.intent.category.LAUNCHER -a android.intent.action.MAIN -c android.intent.category.LAUNCHER 'net.gpii.app/net.gpii.app.GpiiActivity'
     adb shell am broadcast -a org.meshpoint.anode.START -e cmdline '/sdcard/gpii/android/gpii.js'
 }
 

@@ -17,14 +17,18 @@ Build Steps
 
 export ANDROID_HOME=/path/to/your/adt-bundle-linux/sdk/
 cd platform
-./prebuild.sh
+# It's important that you source rather than execute prebuild.sh
+# because it needs to export some env variables.
+source ./prebuild.sh
 cd app
 ant debug
 adb install ./bin/GpiiApp-debug.apk
 cd ../..
 
 # You can skip the get-universal step if you're planning on working
-# with a universal branch and set it up manually
+# with a universal branch and set it up manually. However, if you
+# use this command and are working on a branch, be sure to go to
+# ../node_modules/universal and checkout the correct branch.
 ./android-gpii.sh get-universal
 
 # Tar gzips the android and universal javascript and moves it to the
