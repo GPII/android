@@ -1,13 +1,20 @@
 android
 =======
 
-GPII on Android
+GPII on Android is currently in development release. You can follow
+the steps below to download, build, and install the necessary components
+to develop against. For future production releases, everything will
+be bundled into an apk(s) build.
+
+In development you can keep the gpii javascript on the sd card,
+and make changes to them there while testing.
 
 Build Steps
 ===========
 
 '''shell
 # clone this android module and cd in to it.
+
 export ANDROID_HOME=/path/to/your/adt-bundle-linux/sdk/
 cd platform
 ./prebuild.sh
@@ -15,8 +22,16 @@ cd app
 ant debug
 adb install ./bin/GpiiApp-debug.apk
 cd ../..
+
+# You can skip the get-universal step if you're planning on working
+# with a universal branch and set it up manually
 ./android-gpii.sh get-universal
+
+# Tar gzips the android and universal javascript and moves it to the
+# android SD card and unzips it.
 ./android-gpii.sh install-js
+
+# Starts gpii on port 8081 (by default)
 ./android-gpii.sh start
 '''
 
