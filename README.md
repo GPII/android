@@ -12,7 +12,7 @@ and make changes to them there while testing.
 Build Steps
 ===========
 
-'''shell
+`shell
 # clone this android module and cd in to it.
 
 export ANDROID_HOME=/path/to/your/adt-bundle-linux/sdk/
@@ -37,7 +37,7 @@ cd ../..
 
 # Starts gpii on port 8081 (by default)
 ./android-gpii.sh start
-'''
+`
 
 What happens during the build
 =============================

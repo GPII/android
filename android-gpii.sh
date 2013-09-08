@@ -61,14 +61,17 @@ function gpii-install-gpii {
     if [ -d $node_modules ]; then
         rm -fR build
     fi
-    mkdir -p build/gpii
+    mkdir -p build/gpii/android
+    mkdir -p build/gpii/node_modules
     cd build
-    cp -R $android_gpii_dir ./gpii/
-    cp -R $node_modules ./gpii/
+    cp -R $android_gpii_dir/node_modules ./gpii/android/
+    cp -R $universal ./gpii/node_modules/
+    cp $android_gpii_dir/gpii.js ./gpii/android/
     tar czf gpii-android.tar.gz gpii
+    adb shell 'cd /sdcard; rm gpii-android.tar.gz gpii-android.tar'
     adb push gpii-android.tar.gz /sdcard/gpii-android.tar.gz
     cd $android_gpii_dir
-    adb shell 'cd /sdcard; tar -xzvf gpii-android.tar.gz'
+    adb shell 'cd /sdcard; gunzip gpii-android.tar.gz; tar xvf gpii-android.tar'
 }
 
 if [ $1 = stop ]; then
