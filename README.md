@@ -12,11 +12,18 @@ and make changes to them there while testing.
 Build Steps
 ===========
 
-`shell
-# clone this android module and cd in to it.
+<pre>
+# From a shell
 
+# Clone this android module and cd in to it.
+
+# Set the ANDROID_HOME environmental variable with your system's path
+# where the Android SDK is located.
 export ANDROID_HOME=/path/to/your/adt-bundle-linux/sdk/
+
+# cd in to platform directory
 cd platform
+
 # It's important that you source rather than execute prebuild.sh
 # because it needs to export some env variables.
 source ./prebuild.sh
@@ -31,13 +38,13 @@ cd ../..
 # ../node_modules/universal and checkout the correct branch.
 ./android-gpii.sh get-universal
 
-# Tar gzips the android and universal javascript and moves it to the
-# android SD card and unzips it.
+# Tar gzips the android and universal JavaScript code and moves it to
+# the device's SD card and unzips it.
 ./android-gpii.sh install-js
 
 # Starts gpii on port 8081 (by default)
 ./android-gpii.sh start
-`
+</pre>
 
 What happens during the build
 =============================
