@@ -49,7 +49,7 @@ function gpii-get-universal-code {
     else
         echo "$universal does not exist"
         echo "cloning universal"
-        git clone "$repoURL" "$universal"
+        git clone "$repoURL" -b v0.2 "$universal"
     fi
     cd $universal
     npm install
