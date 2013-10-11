@@ -17,7 +17,12 @@ public final class Net_gpii_AndroidIntentHandler {
 				(String)args[1]
 			);
 			break;
-		case 1: /* startMainLauncherActivity */
+		case 1: /* startActivityByPackageName */
+			inst.startActivityByPackageName(
+				(String)args[0]
+			);
+			break;
+		case 2: /* startMainLauncherActivity */
 			inst.startMainLauncherActivity(
 				(String)args[0],
 				(String)args[1]

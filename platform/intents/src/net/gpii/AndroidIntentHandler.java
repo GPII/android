@@ -9,5 +9,6 @@ public abstract class AndroidIntentHandler extends Base {
 	
 	//public abstract void startActivity(String action);
 	public abstract void startActivity(String action, String data);
+	public abstract void startActivityByPackageName(String packageName);
 	public abstract void startMainLauncherActivity(String action, String comp);
 }
