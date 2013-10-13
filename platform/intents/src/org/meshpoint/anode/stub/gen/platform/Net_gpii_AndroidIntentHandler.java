@@ -28,6 +28,11 @@ public final class Net_gpii_AndroidIntentHandler {
 				(String)args[1]
 			);
 			break;
+		case 3: /* stopActivityByPackageName */
+			inst.stopActivityByPackageName(
+				(String)args[0]
+			);
+			break;
 		default:
 		}
 		return result;
