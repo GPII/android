@@ -94,4 +94,16 @@ public class AndroidIntentHandlerImpl extends AndroidIntentHandler implements IM
 
             Process.killProcess(process.pid);
         }
+
+        @Override
+        public void goToHomeScreen()
+        {
+            Log.v(TAG, "AndroidIntentHanlderImpl.goToHomeScreen");
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            androidContext.getApplicationContext().startActivity(intent);
+        }
 }

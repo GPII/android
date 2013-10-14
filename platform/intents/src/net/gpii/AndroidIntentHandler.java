@@ -12,4 +12,6 @@ public abstract class AndroidIntentHandler extends Base {
 	public abstract void startActivityByPackageName(String packageName);
 	public abstract void startMainLauncherActivity(String action, String comp);
 	public abstract void stopActivityByPackageName(String packageName);
+
+	public abstract void goToHomeScreen();
 }
