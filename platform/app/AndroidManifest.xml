@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="net.gpii.app"
+      android:versionCode="1"
+      android:versionName="1.0">
+      <!-- Temporarily moving to anode until i replace the constants sgithens 2013-07-07 package="net.gpii.app" -->
+
+<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+<uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+<uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+<uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+<uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+
+<uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+        <activity android:name="GpiiActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Lifted from Anode sgithens 2013-07-07 -->
+        <receiver android:enabled="true" android:label="@string/anode_receiver" android:exported="true" android:description="@string/anode_receiver_description" android:name="org.meshpoint.anode.AnodeReceiver">
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.START" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.STOP" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.STOPALL" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.INSTALL" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.UNINSTALL" />
+            </intent-filter>
+        </receiver>
+        <service android:exported="true" android:enabled="true" android:name="org.meshpoint.anode.AnodeService" android:description="@string/anode_service_description" android:label="@string/anode_service">
+            <!-- disabled until we work out how to get a valid context for a Service triggered by these
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.START" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.STOP" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.meshpoint.anode.STOPALL" />
+            </intent-filter>
+             -->
+        </service>
+
+
+    </application>
+</manifest>
