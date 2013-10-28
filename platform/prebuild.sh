@@ -17,6 +17,13 @@ fi
 # TODO Reminder that script has to be sourced for these to be set. 
 export ANODE_ROOT=$(pwd)/anode
 
+# Create libs directory if it doesn't exist yet
+if [ -d 'app/libs' ]; then
+    echo 'libs directory already created'
+else
+    mkdir app/libs
+fi
+
 cp anode/app/contrib/jtar-1.0.4.jar app/libs/
 
 # Create Assets directory if it doesn't exist yet
