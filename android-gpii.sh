@@ -12,7 +12,8 @@
 gpii_dir="$(pwd)/.."
 node_modules="$(pwd)/../node_modules"
 universal="$(pwd)/../node_modules/universal"
-repoURL="git://github.com/GPII/universal.git" 
+repoURL="git://github.com/GPII/universal.git"
+tag="tags/v0.2"
 android_gpii_dir=$(pwd)
 
 function gpii-start {
@@ -52,6 +53,7 @@ function gpii-get-universal-code {
         git clone "$repoURL" -b v0.2 "$universal"
     fi
     cd $universal
+    git checkout $tag
     npm install
     cd $android_gpii_dir
 }
