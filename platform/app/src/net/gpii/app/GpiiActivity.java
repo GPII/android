@@ -146,7 +146,7 @@ public class GpiiActivity extends Activity
                 result = GpiiActivity.GPII_STATE_NOT_RUNNING;
             }
 
-        return result;
+            return result;
         }
 
         @Override
