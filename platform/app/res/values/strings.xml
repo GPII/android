@@ -17,4 +17,21 @@
     <string name="anode_service">Anode Service</string>
     <string name="anode_service_description">A service that permits the running of node.js invocations in the background</string>
 
+    <!-- UI Manager -->
+    <string name="action_settings">Settings</string>
+
+    <string name="gpii_activity_title">GPII status:</string>
+    <string name="gpii_status_label">GPII status:</string>
+    <string name="gpii_status_unknown">Unknown</string>
+    <string name="gpii_status_running">Running</string>
+    <string name="gpii_status_not_running">Not running</string>
+    <string name="gpii_script_label">Node.js script to run:</string>
+    <string name="gpii_controls">GPII Controls</string>
+    <string name="gpii_controls_start">Start</string>
+    <string name="gpii_controls_stop">Stop</string>
+    <string name="gpii_controls_kill">Kill</string>
+    <string name="gpii_default_script_uri">/sdcard/gpii/android/gpii.js</string>
+    <string name="gpii_logo_content">Logo of the GPII project</string>
+    <string name="gpii_controls_update_status">Check status</string>
+
 </resources>

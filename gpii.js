@@ -18,6 +18,6 @@ fluid.require("activitymanager", require);
 // For Android, if we don't explicity use the __dirname on the configPath
 // we end up getting something like /node_modules/universal/gpii/configs/file.json'
 kettle.config.makeConfigLoader({
-    nodeEnv: kettle.config.getNodeEnv("fm.ps.sr.dr.mm.os.development"),
+    nodeEnv: kettle.config.getNodeEnv("fm.ps.sr.dr.mm.os.lms.development"),
     configPath: kettle.config.getConfigPath() || __dirname+"/../node_modules/universal/gpii/configs"
 });
