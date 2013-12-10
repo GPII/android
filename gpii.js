@@ -14,6 +14,7 @@ var fluid = require("universal"),
     kettle = fluid.registerNamespace("kettle");
 
 fluid.require("activitymanager", require);
+fluid.require("audioManager", require);
 
 // For Android, if we don't explicity use the __dirname on the configPath
 // we end up getting something like /node_modules/universal/gpii/configs/file.json'
