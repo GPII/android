@@ -5,3 +5,4 @@ java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./a11yservices/src 
 java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./androidSettings/src --classpath ./app/bin/classes net.gpii.AndroidFontSettings
 java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./androidSettings/src --classpath ./app/bin/classes net.gpii.AndroidSettings
 java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./audioManager/src --classpath ./app/bin/classes net.gpii.AndroidAudioManager
+java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./persistentconfig/src --classpath ./app/bin/classes net.gpii.AndroidPersistentConfiguration
