@@ -78,8 +78,15 @@ public class AndroidPersistentConfigurationImpl extends AndroidPersistentConfigu
         if (setting.equals("fontScale")) {
             mConfig.fontScale = Float.parseFloat(value);
         } else if (setting.equals("locale")) {
-            Locale locale = new Locale(value);
-            mConfig.locale = locale;
+            if (value.contains("_")) {
+                String language [] = value.split("_");
+                Locale locale = new Locale(language[0],
+                                           language[1]);
+                mConfig.locale = locale;
+            } else {
+                Locale locale = new Locale(value);
+                mConfig.locale = locale;
+            }
         } else {
             value = null;
         }
