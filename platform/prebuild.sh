@@ -24,7 +24,8 @@ else
     mkdir app/libs
 fi
 
-cp anode/app/contrib/jtar-1.0.4.jar app/libs/
+#cp anode/app/contrib/jtar-2.2.jar app/libs/
+curl -o app/libs/jtar-1.0.4.jar https://jtar.googlecode.com/files/jtar-1.0.4.jar
 
 # Create Assets directory if it doesn't exist yet
 if [ -d 'app/assets' ]; then
@@ -34,6 +35,6 @@ else
 fi
 
 # Fetch node binaries from webinos
-curl -o app/assets/bridge.node https://raw.github.com/webinos/Webinos-Platform/master/webinos/platform/android/app/assets/bridge.node
-curl -o app/assets/libjninode.so https://raw.github.com/webinos/Webinos-Platform/master/webinos/platform/android/app/assets/libjninode.so
+curl -o app/assets/bridge.node 'https://raw.githubusercontent.com/webinos/Webinos-Platform/master/webinos/platform/android/app/assets/bridge.node'
+curl -o app/assets/libjninode.so 'https://raw.githubusercontent.com/webinos/Webinos-Platform/master/webinos/platform/android/app/assets/libjninode.so'
 
