@@ -2,6 +2,7 @@
 GPII Linux Personalization Framework Node.js Bootstrap
 
 Copyright 2012 OCAD University
+Copyright 2013 2014 Emergya
 
 Licensed under the New BSD license. You may not use this file except in
 compliance with this License.
@@ -13,10 +14,14 @@ https://github.com/gpii/universal/LICENSE.txt
 var fluid = require("universal"),
     kettle = fluid.registerNamespace("kettle");
 
+// Settings Handlers & Lifecycle Actions-related modules
 fluid.require("activitymanager", require);
 fluid.require("androidSettings", require);
 fluid.require("audioManager", require);
 fluid.require("persistentConfiguration", require);
+
+// Android Device Reporter
+fluid.require("deviceReporter", require);
 
 // For Android, if we don't explicity use the __dirname on the configPath
 // we end up getting something like /node_modules/universal/gpii/configs/file.json'
