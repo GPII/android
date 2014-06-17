@@ -24,7 +24,6 @@ else
     mkdir app/libs
 fi
 
-#cp anode/app/contrib/jtar-2.2.jar app/libs/
 curl -o app/libs/jtar-1.0.4.jar https://jtar.googlecode.com/files/jtar-1.0.4.jar
 
 # Create Assets directory if it doesn't exist yet
