@@ -5,6 +5,9 @@ if [ -d 'anode' ]; then
     echo 'Anode already checked out'
 else
     git clone git://github.com/paddybyers/anode.git
+    cd anode
+    git checkout 8fd691f15ae53dfc1fb89e634bc08836ad77d18e
+    cd ..
 fi
 
 
