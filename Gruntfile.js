@@ -103,7 +103,7 @@ module.exports = function(grunt) {
                 command: [
                     "adb install " + __dirname + "/../build/GpiiApp-debug.apk"
                 ]
-            }
+            },
             installPrivilegedApk: {
                 command: [
                     "system_dev=$(adb shell 'mount | grep /system | awk '\"'\"'BEGIN{FS=\" \"} {print $1}'\"'\")",
