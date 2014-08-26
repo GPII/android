@@ -13,14 +13,14 @@ https://github.com/gpii/universal/LICENSE.txt
 var fluid = require("universal"),
     kettle = fluid.registerNamespace("kettle");
 
-fluid.require("activitymanager", require);
-fluid.require("androidSettings", require);
-fluid.require("audioManager", require);
-fluid.require("persistentConfiguration", require);
+fluid.require("./gpii/node_modules/activitymanager", require);
+fluid.require("./gpii/node_modules/androidSettings", require);
+fluid.require("./gpii/node_modules/audioManager", require);
+fluid.require("./gpii/node_modules/persistentConfiguration", require);
 
 // For Android, if we don't explicity use the __dirname on the configPath
 // we end up getting something like /node_modules/universal/gpii/configs/file.json'
 kettle.config.makeConfigLoader({
     nodeEnv: kettle.config.getNodeEnv("fm.ps.sr.dr.mm.os.lms.development"),
-    configPath: kettle.config.getConfigPath() || __dirname+"/../node_modules/universal/gpii/configs"
+    configPath: kettle.config.getConfigPath() || __dirname + "/../node_modules/universal/gpii/configs"
 });
