@@ -1,5 +1,5 @@
 /*!
-GPII Linux Personalization Framework Node.js Bootstrap
+GPII Android Personalization Framework Node.js Bootstrap
 
 Copyright 2014 RTF-US
 Copyright 2014 Emergya
