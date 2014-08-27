@@ -46,6 +46,13 @@ module.exports = function(grunt) {
                     "cd -"
                 ].join("&&")
             },
+            cleanApk: {
+                command: [
+                    "cd " + __dirname + "/platform/app",
+                    "ant clean",
+                    "cd -"
+                ].join("&&")
+            },
             copyToBuildFolder: {
                 command: function (filePath, outputFolder) {
                     var command = "";
@@ -69,11 +76,12 @@ module.exports = function(grunt) {
                 },
                 options: {
                     callback: function (err, stdout, stderr, cb) {
+                        var returnValue = true;
                         if (err) {
                             grunt.log.error(stderr);
-                            return false;
+                            returnValue = false;
                         }
-                        cb();
+                        cb(returnValue);
                     }
                 }
             },
@@ -87,6 +95,9 @@ module.exports = function(grunt) {
                     "tput sgr0"
                 ].join("&&")
             },
+            removeBuildFolder: {
+                command: "rm -rf " + __dirname + "/../build"
+            },
             installJs: {
                 command: [
                     "adb shell 'cd /sdcard; rm gpii-android.tar.gz; rm gpii-android.tar'",
@@ -99,10 +110,48 @@ module.exports = function(grunt) {
                     }
                 }
             },
+            uninstallJs: {
+                command: "adb shell 'rm -r /sdcard/gpii'"
+            },
             installApk: {
-                command: [
-                    "adb install " + __dirname + "/../build/GpiiApp-debug.apk"
-                ]
+                command: "adb install " + __dirname + "/../build/GpiiApp-debug.apk",
+                options: {
+                    callback: function (err, stdout, stderr, cb) {
+                        var returnValue = true;
+                        if (err) {
+                            grunt.log.error(stderr);
+                            returnValue = false;
+                        }
+                        if (stdout.indexOf("INSTALL_FAILED_ALREADY_EXISTS") > -1) {
+                            grunt.log.error("Error while trying to install the APK. " +
+                                            "Looks like it is already installed\n" +
+                                            "Try to uninstall it before by using " +
+                                            "the 'shell:uninstallApk' task.");
+                            returnValue = false;
+                        }
+                        cb(returnValue);
+                    }
+                }
+            },
+            uninstallApk: {
+                command: "adb uninstall net.gpii.app",
+                options: {
+                    callback: function (err, stdout, stderr, cb) {
+                        var returnValue = true;
+                        if (err) {
+                            grunt.log.error(stderr);
+                            returnValue = false;
+                        }
+                        if (stdout === "Failure") {
+                            grunt.log.error("Error while trying to uninstall the APK.\n" +
+                                            "Is the APK installed as a privileged " +
+                                            "application? Try to uninstall it by " +
+                                            "using the 'shell:uninstallPrivilegedApk' task.");
+                            returnValue = false;
+                        }
+                        cb(returnValue);
+                    }
+                }
             },
             installPrivilegedApk: {
                 command: [
@@ -113,6 +162,34 @@ module.exports = function(grunt) {
                     "adb shell 'su -c \"chmod 755 /system/app; mount -o ro,remount -t yaffs2 $system_dev /system\"'",
                     "echo 'Restarting the Android device...'",
                     "adb reboot"
+                ].join("&&")
+            },
+            uninstallPrivilegedApk: {
+                command: [
+                    "system_dev=$(adb shell 'mount | grep /system | awk '\"'\"'BEGIN{FS=\" \"} {print $1}'\"'\")",
+                    "adb shell 'su -c \"mount -o rw,remount -t yaffs2 $system_dev /system; chmod 777 /system/app\"'",
+                    "adb shell 'su -c \"rm /system/app/GpiiApp-debug.apk\"'",
+                    "adb shell 'su -c \"chmod 755 /system/app; mount -o ro,remount -t yaffs2 $system_dev /system\"'",
+                    "echo 'Restarting the Android device...'",
+                    "adb reboot"
+                ].join("&&")
+            },
+            distClean: {
+                command: [
+                    "cd " + __dirname,
+                    "rm -rf ../node_modules",
+                    "rm -rf node_modules",
+                    "rm -rf platform/anode",
+                    "rm -rf platform/app/assets",
+                    "rm -rf platform/app/libs",
+                    "cd -"
+                ].join("&&")
+            },
+            startGpii: {
+                command: [
+                    "adb shell am start -W -c android.intent.category.LAUNCHER -a android.intent.action.MAIN " +
+                    "-c android.intent.category.LAUNCHER 'net.gpii.app/net.gpii.app.GpiiActivity'",
+                    "adb shell am broadcast -a org.meshpoint.anode.START -e cmdline '/sdcard/gpii/android/gpii.js'"
                 ].join("&&")
             }
         }
@@ -125,11 +202,11 @@ module.exports = function(grunt) {
                             "under 'platform' to set up your build environment " +
                             "before running this Grunt task again.");
             return false;
-        };
+        }
     });
 
     grunt.registerTask("buildApk", "Build the APK", function () {
-        var pathToApk = __dirname + "/platform/app/bin/GpiiApp-debug.apk"
+        var pathToApk = __dirname + "/platform/app/bin/GpiiApp-debug.apk";
         grunt.task.run(["shell:buildApk", "shell:copyToBuildFolder:" + pathToApk]);
     });
 
@@ -153,13 +230,34 @@ module.exports = function(grunt) {
         grunt.task.run("shell:installApk");
     });
 
-    grunt.registerTask("installPrivilegedApk", "Install the GPII's APK as a system application", function () {
+    grunt.registerTask("uninstall", "Remove the GPII from your Android device", function () {
+        grunt.task.run("shell:uninstallJs");
+        grunt.task.run("shell:uninstallApk");
+    });
+
+    grunt.registerTask("installPrivileged", "Install the GPII as a system application (requires root access)", function () {
+        grunt.task.run("shell:installJs");
         grunt.task.run("shell:installPrivilegedApk");
     });
 
-    grunt.registerTask("clean", "Clean the GPII binaries and uninstall", function () {
+    grunt.registerTask("uninstallPrivileged", "Remove the GPII from your Android device (privileged installation)", function () {
+        grunt.task.run("shell:uninstallJs");
+        grunt.task.run("shell:uninstallPrivilegedApk");
+    });
+
+    grunt.registerTask("clean", "Clean the GPII binaries", function () {
+        grunt.task.run("shell:cleanApk");
+        grunt.task.run("shell:removeBuildFolder");
+    });
+
+    grunt.registerTask("distClean", "Clean the full GPII build environment, including " +
+                       "build results, downloaded dependencies, universal repo, etc.\n" +
+                       "You can use this in order to start building again from scratch", function () {
+        grunt.task.run("clean");
+        grunt.task.run("shell:distClean");
     });
 
     grunt.registerTask("start", "Start the GPII", function () {
+        grunt.task.run("shell:startGpii");
     });
 };
