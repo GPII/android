@@ -17,18 +17,18 @@ The following components can be found in the reposoitory:
 * Native modules. These modules are written in Java language and built using
 Anode. These are required to allow the GPII to access to Android's internals,
 and they can be found under the _platform_ folder.
-	* a11yservices
-	* androidSettings
-	* audioManager
-	* intents
-	* persistentconfig
+	* __a11yservices__
+	* __androidSettings__
+	* __audioManager__
+	* __intents__
+	* __persistentconfig__
 * In order to use these native modules from Node.js we have included several
 JavaScript modules. They are under _gpii/node_modules_ folder and are strictly
 needed to run the GPII on Android. These are:
-	* activityManager: Required for launching/stopping applications/services
-	* androidSettings: Used for setting conf items on the Android's Settings API
-        * audioManager: Used for setting diverse volumes in the Android platform
-        * persistentConfiguration: Used for setting conf items on the Android Preferences API
+	* __activityManager__: Required for launching/stopping applications/services
+	* __androidSettings__: Used for setting conf items on the Android's Settings API
+	* __audioManager__: Used for setting diverse volumes in the Android platform
+	* __persistentConfiguration__: Used for setting conf items on the Android Preferences API
 
 Building, installing and running
 ===========
@@ -46,12 +46,12 @@ Before starting the build, you have to make two things by hand:
 
 * Tell the system where your Android SDK is located, you can do this by running
 
-	export ANDROID_HOME=/path/to/your/android/sdk
+<pre>export ANDROID_HOME=/path/to/your/android/sdk</pre>
 
 * Pre-configure the build nevironment. To do that, just go to _platform_ folder
 and run:
 
-	source ./prebuild.sh
+<pre>source ./prebuild.sh</pre>
 
 After doing that you are able to perform the build by running:
 
@@ -66,14 +66,14 @@ The installation can be done in two different ways:
 some settings or to perform certain operations, such as starting Talkback or
 changing the speech rate, font size, etc. To perform this installation run:
 
-	grunt install
+<pre>grunt install</pre>
 
 * Privileged installation. By using this method, the GPII will be installed as
 a system application so it will have permissions to perform _privileged_ tasks.
 Note that you need __root__ permissions in your device to perform this
 installation.
 
-	grunt installPrivileged
+<pre>grunt installPrivileged</pre>
 
 Note that the install scripts make use of the Android's _adb_ command and also
 they need some _powerful_ commands in your device in order to perform the
@@ -89,18 +89,18 @@ The GPII can be run either:
 
 There are some more grunt tasks available, the full list of available tasks is:
 
-* checkBuildEnv: Check if the build environment is appropriately set up
-* buildApk: Build the APK
-* buildTarGz: Build android-gpii.tar.gz
-* build: Build the entire GPII
-* install: Install the GPII on your Android device
-* uninstall: Remove the GPII from your Android device
-* installPrivileged: Install the GPII as a system application (requires root
+* __checkBuildEnv__: Check if the build environment is appropriately set up
+* __buildApk__: Build the APK
+* __buildTarGz__: Build android-gpii.tar.gz
+* __build__: Build the entire GPII
+* __install__: Install the GPII on your Android device
+* __uninstall__: Remove the GPII from your Android device
+* __installPrivileged__: Install the GPII as a system application (requires root
 access)
-* uninstallPrivileged: Remove the GPII from your Android device (privileged
+* __uninstallPrivileged__: Remove the GPII from your Android device (privileged
 installation)
-* clean: Clean the GPII binaries
-* distClean: Clean the full GPII build environment, including build
+* __clean__: Clean the GPII binaries
+* __distClean__: Clean the full GPII build environment, including build
 results, downloaded dependencies, universal repo, etc.
 You can use this in order to start building again from scratch.
-* start: Start the GPII
+* __start__: Start the GPII
