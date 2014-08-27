@@ -22,6 +22,7 @@ and they can be found under the _platform_ folder.
 	* __audioManager__
 	* __intents__
 	* __persistentconfig__
+
 * In order to use these native modules from Node.js we have included several
 JavaScript modules. They are under _gpii/node_modules_ folder and are strictly
 needed to run the GPII on Android. These are:
@@ -85,7 +86,7 @@ The GPII can be run either:
 * From the Android User Interface. Search for _GpiiActivity_ and click on _Start_
 * By using the _start_ task by running:
 
-	grunt start
+<pre>grunt start</pre>
 
 There are some more grunt tasks available, the full list of available tasks is:
 
