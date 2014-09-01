@@ -16,7 +16,6 @@ var fluid = require("universal"),
 fluid.require("activitymanager", require);
 fluid.require("androidSettings", require);
 fluid.require("audioManager", require);
-fluid.require("tvSettings", require);
 fluid.require("persistentConfiguration", require);
 
 // For Android, if we don't explicity use the __dirname on the configPath
