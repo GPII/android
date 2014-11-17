@@ -2,6 +2,7 @@
  * GPII Linux Personalization Framework Node.js Bootstrap
  *
  * Copyright 2012 OCAD University
+ * Copyright 2013, 2014 Emergya
  *
  * Licensed under the New BSD license. You may not use this file except in
  * compliance with this License.
@@ -26,5 +27,5 @@ fluid.require("persistentConfiguration", require);
 // we end up getting something like /node_modules/universal/gpii/configs/file.json'
 kettle.config.makeConfigLoader({
     nodeEnv: kettle.config.getNodeEnv("fm.ps.sr.dr.mm.os.lms.development"),
-    configPath: kettle.config.getConfigPath() || __dirname+"/../node_modules/universal/gpii/configs"
+    configPath: kettle.config.getConfigPath() || __dirname + "/../node_modules/universal/gpii/configs"
 });

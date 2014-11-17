@@ -1,5 +1,5 @@
-android
-=======
+GPII for Android
+================
 
 GPII on Android is currently in development release. You can follow
 the steps below to download, build, and install the necessary components
@@ -9,70 +9,99 @@ be bundled into an apk(s) build.
 In development you can keep the gpii javascript on the sd card,
 and make changes to them there while testing.
 
-Build Steps
+This repository contains all the platform-specific code required to run the
+GPII Personalization Framework on Android.
+
+The following components can be found in the reposoitory:
+
+* Native modules. These modules are written in Java language and built using
+Anode. These are required to allow the GPII to access to Android's internals,
+and they can be found under the _platform_ folder.
+	* __a11yservices__
+	* __androidSettings__
+	* __audioManager__
+	* __intents__
+	* __persistentconfig__
+
+* In order to use these native modules from Node.js we have included several
+JavaScript modules. They are under _gpii/node_modules_ folder and are strictly
+needed to run the GPII on Android. These are:
+	* __activityManager__: Required for launching/stopping applications/services
+	* __androidSettings__: Used for setting conf items on the Android's Settings API
+	* __audioManager__: Used for setting diverse volumes in the Android platform
+	* __persistentConfiguration__: Used for setting conf items on the Android Preferences API
+
+Building, installing and running
 ===========
 
-<pre>
-# From a shell
+We use the grunt task system to perform our build operations. If you don't have
+grunt installed yet you can do so with:
 
-# Clone this android module and cd in to it.
+	npm install -g grunt-cli
 
-# Set the ANDROID_HOME environmental variable with your system's path
-# where the Android SDK is located.
-export ANDROID_HOME=/path/to/your/adt-bundle-linux/sdk/
+To fetch our core universal dependencies run:
 
-# cd in to platform directory
-cd platform
+	npm install
 
-# It's important that you source rather than execute prebuild.sh
-# because it needs to export some env variables.
-source ./prebuild.sh
-cd app
-ant debug
-adb install ./bin/GpiiApp-debug.apk
-cd ../..
+Before starting the build, you have to make two things by hand:
 
-# You can skip the get-universal step if you're planning on working
-# with a universal branch and set it up manually. However, if you
-# use this command and are working on a branch, be sure to go to
-# ../node_modules/universal and checkout the correct branch.
-./android-gpii.sh get-universal
+* Tell the system where your Android SDK is located, you can do this by running
 
-# Tar gzips the android and universal JavaScript code and moves it to
-# the device's SD card and unzips it.
-./android-gpii.sh install-js
+<pre>export ANDROID_HOME=/path/to/your/android/sdk</pre>
 
-# Starts gpii on port 8081 (by default)
-./android-gpii.sh start
-</pre>
+* Pre-configure the build nevironment. To do that, just go to _platform_ folder
+and run:
 
-What happens during the build
-=============================
+<pre>source ./prebuild.sh</pre>
 
-What follows is a general list of what is happening when we build this 
-project.
+After doing that you are able to perform the build by running:
 
-- The gpii android module containing this readme file is clone with git.
-- Initial work is performed in the platform directory, starting with fetching
-  the anode project. Then we make create an assets directory in /app, and 
-  download the prebuilt node.js binaries to put in that directory.
-- We set the anode root env variable and check to make sure the android home
-  variable is set.
-- We copy the jtar jar dependency from anode to our app directory.
-- Then we go into /app and use 'ant debug' to build the Gpii activity apk.
-- Then we create the node_modules directory and clone the universal repository
-  into it.
-- Inside the universal repository 'npm install' is run to fetch all the 
-  dependencies.
-- The android and universal gpii javascript is copied to the device, to the
-  sdcard for development. ( For production builds we will bundle it in the apk )
-- The gpii activity apk is 'adb installed' to the device.
-- The first time running, you need to manually start the Gpii activity. ( This
-  will be fixed in the future )
-- Then we can start the GPII via intent.
+	grunt build
 
-Notes
-=====
+Once the _build_ task has finished, you are more than ready to install the GPII
+Personalization Framework into your device.
 
-- Currently, the main activity screen must be launched for the broadcast 
-  intent that starts GPII to work.
+The installation can be done in two different ways:
+
+* Normal installation. By using this method, the GPII won't be able to change
+some settings or to perform certain operations, such as starting Talkback or
+changing the speech rate, font size, etc. To perform this installation run:
+
+<pre>grunt install</pre>
+
+* Privileged installation. By using this method, the GPII will be installed as
+a system application so it will have permissions to perform _privileged_ tasks.
+Note that you need __root__ permissions in your device to perform this
+installation.
+
+<pre>grunt installPrivileged</pre>
+
+Note that the install scripts make use of the Android's _adb_ command and also
+they need some _powerful_ commands in your device in order to perform the
+installation. Those _powerful_ commands can be provided by some applications
+that are available in the [Google's PlayStore](https://play.google.com/), such as [BusyBox](https://play.google.com/store/apps/details?id=stericson.busybox) or
+[BusyBox(for non-rooted devices)](https://play.google.com/store/apps/details?id=burrows.apps.busybox). In any case, we recommend the first one.
+
+The GPII can be run either:
+* From the Android User Interface. Search for _GpiiActivity_ and click on _Start_
+* By using the _start_ task by running:
+
+<pre>grunt start</pre>
+
+There are some more grunt tasks available, the full list of available tasks is:
+
+* __checkBuildEnv__: Check if the build environment is appropriately set up
+* __buildApk__: Build the APK
+* __buildTarGz__: Build android-gpii.tar.gz
+* __build__: Build the entire GPII
+* __install__: Install the GPII on your Android device
+* __uninstall__: Remove the GPII from your Android device
+* __installPrivileged__: Install the GPII as a system application (requires root
+access)
+* __uninstallPrivileged__: Remove the GPII from your Android device (privileged
+installation)
+* __clean__: Clean the GPII binaries
+* __distClean__: Clean the full GPII build environment, including build
+results, downloaded dependencies, universal repo, etc.
+You can use this in order to start building again from scratch.
+* __start__: Start the GPII
