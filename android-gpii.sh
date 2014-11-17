@@ -72,6 +72,8 @@ function gpii-install-gpii {
     cp -R $android_gpii_dir/gpii/node_modules ./gpii/android/
     cp -R $universal ./gpii/node_modules/
     cp $android_gpii_dir/gpii.js ./gpii/android/
+    cp $android_gpii_dir/index.js ./gpii/android/
+    cp $android_gpii_dir/package.json ./gpii/android/
     tar czf gpii-android.tar.gz gpii
     adb shell 'cd /sdcard; rm gpii-android.tar.gz; rm gpii-android.tar'
     adb push gpii-android.tar.gz /sdcard/gpii-android.tar.gz
