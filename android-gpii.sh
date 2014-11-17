@@ -6,13 +6,17 @@
 # Licensed under the New BSD license. You may not use this file except in
 # compliance with this License.
 #
+# The research leading to these results has received funding from the European Union's
+# Seventh Framework Programme (FP7/2007-2013)
+# under grant agreement no. 289016.
+#
 # You may obtain a copy of the License at
-# https://github.com/gpii/universal/LICENSE.txt
+# https://github.com/GPII/universal/blob/master/LICENSE.txt
 
 gpii_dir="$(pwd)/.."
 node_modules="$(pwd)/../node_modules"
 universal="$(pwd)/../node_modules/universal"
-repoURL="git://github.com/GPII/universal.git" 
+repoURL="git://github.com/GPII/universal.git"
 android_gpii_dir=$(pwd)
 
 function gpii-start {
@@ -79,14 +83,14 @@ function gpii-install-privileged-apk {
     # Remount the /system filesystem as read/write. It is usually read only.
     system_dev=$(adb shell 'mount | grep /system | awk '"'"'BEGIN{FS=" "} {print $1}'"'")
     adb shell 'su -c "mount -o rw,remount -t yaffs2 $system_dev /system; chmod 777 /system/app"'
-    
+
     # Push the apk.
     adb push platform/app/bin/GpiiApp-debug.apk /sdcard/
     adb shell 'su -c "cp /sdcard/GpiiApp-debug.apk /system/app/; chmod 644 /system/app/GpiiApp-debug.apk"; rm /sdcard/GpiiApp-debug.apk'
-    
+
     # Remount again as read only.
     adb shell 'su -c "chmod 755 /system/app; mount -o ro,remount -t yaffs2 $system_dev /system"'
-    
+
     echo "Restarting the Android device..."
     adb reboot
 }
