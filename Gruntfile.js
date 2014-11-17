@@ -24,14 +24,14 @@ module.exports = function(grunt) {
   
     grunt.initConfig({
         jshint: {
-            src: ["gpii/**/*.js", "tests/**/*.js"],
+            src: ["gpii/**/*.js"],
             buildScripts: ["Gruntfile.js"],
             options: {
                 jshintrc: true
             }
         },
         jsonlint: {
-            src: ["gpii/**/*.json", "tests/**/*.json"]
+            src: ["gpii/**/*.json"]
         },
         shell: {
             options: {
