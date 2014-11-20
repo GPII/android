@@ -49,7 +49,7 @@ Before starting the build, you have to make two things by hand:
 
 <pre>export ANDROID_HOME=/path/to/your/android/sdk</pre>
 
-* Pre-configure the build nevironment. To do that, just go to _platform_ folder
+* Pre-configure the build environment. To do that, just go to _platform_ folder
 and run:
 
 <pre>source ./prebuild.sh</pre>
