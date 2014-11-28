@@ -1,3 +1,17 @@
+/*
+ * GPII Android Personalization Framework - A11y Settings handler
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * The research leading to these results has received funding from the European Union's
+ * Seventh Framework Programme (FP7/2007-2013)
+ * under grant agreement no. 289016.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
+
 package net.gpii;
 
 import android.content.ContentResolver;
@@ -12,10 +26,10 @@ import org.meshpoint.anode.module.IModuleContext;
 public class AndroidA11ySettingsImpl extends AndroidA11ySettings implements IModule {
 	private static final String TAG = "net.gpii.AndroidA11ySettingsImpl";
 	private static final String TALKBACK_SETTING_NAME = "com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService";
-	
+
 	IModuleContext ctx;
 	private Context androidContext;
-	
+
 	@Override
 	public Object startModule(IModuleContext ctx) {
 		Log.v(TAG, "AndroidA11ySettingsImpl.startModule()");

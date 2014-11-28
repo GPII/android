@@ -1,3 +1,17 @@
+/*
+ * GPII Android Personalization Framework - Intent handler
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * The research leading to these results has received funding from the European Union's
+ * Seventh Framework Programme (FP7/2007-2013)
+ * under grant agreement no. 289016.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
+
 package net.gpii;
 
 import org.meshpoint.anode.AndroidContext;
@@ -20,7 +34,7 @@ public class AndroidIntentHandlerImpl extends AndroidIntentHandler implements IM
 	private static final String TAG = "net.gpii.AndroidIntentHandlerImpl";
 	IModuleContext ctx;
 	private Context androidContext;
-	
+
 	@Override
 	public Object startModule(IModuleContext ctx) {
 		Log.v(TAG, "AndroidIntentHanlderImpl.startModule()");
@@ -42,12 +56,12 @@ public class AndroidIntentHandlerImpl extends AndroidIntentHandler implements IM
 
 	@Override
 	public void startActivity(String action, String data) {
-		Log.v(TAG, "AndroidIntentHanlderImpl.startActivity a: " + action + " d: " + data);		
+		Log.v(TAG, "AndroidIntentHanlderImpl.startActivity a: " + action + " d: " + data);
 		Intent intent = new Intent(action, Uri.parse(data));
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		androidContext.getApplicationContext().startActivity(intent);
 	}
-	
+
 	@Override
 	public void startMainLauncherActivity(String action, String comp) {
 		Intent intent = new Intent("android.intent.action.MAIN");
