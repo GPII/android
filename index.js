@@ -19,7 +19,13 @@ var fluid = require("universal");
 
 fluid.module.register("gpii-android", __dirname, require);
 
+// Native modules for settings handlers
+//
 fluid.require("activitymanager", require);
 fluid.require("androidSettings", require);
 fluid.require("audioManager", require);
 fluid.require("persistentConfiguration", require);
+
+// Native module for sensors
+//
+fluid.require("sensors", require);
