@@ -11,16 +11,31 @@ public final class Net_gpii_AndroidSensors {
 	static Object __invoke(net.gpii.AndroidSensors inst, int opIdx, Object[] args) {
 		Object result = null;
 		switch(opIdx) {
-		case 0: /* getLightSensor */
+		case 0: /* getAmplitudeEMA */
+			result = org.meshpoint.anode.js.JSValue.asJSNumber(inst.getAmplitudeEMA());
+			break;
+		case 1: /* getEndPoint */
+			result = inst.getEndPoint();
+			break;
+		case 2: /* getLightSensor */
 			result = inst.getLightSensor();
 			break;
-		case 1: /* startLightSensor */
-			inst.startLightSensor(
+		case 3: /* setEndPoint */
+			inst.setEndPoint(
 				(String)args[0]
 			);
 			break;
-		case 2: /* stopLightSensor */
+		case 4: /* startLightSensor */
+			inst.startLightSensor();
+			break;
+		case 5: /* startNoiseSensor */
+			inst.startNoiseSensor();
+			break;
+		case 6: /* stopLightSensor */
 			inst.stopLightSensor();
+			break;
+		case 7: /* stopNoiseSensor */
+			inst.stopNoiseSensor();
 			break;
 		default:
 		}
