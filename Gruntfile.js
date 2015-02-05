@@ -15,13 +15,13 @@ https://github.com/gpii/universal/LICENSE.txt
 
 var fs = require("fs");
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     grunt.loadNpmTasks("grunt-shell");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-jsonlint");
     grunt.loadNpmTasks("grunt-gpii");
-  
+
     grunt.initConfig({
         jshint: {
             src: ["gpii/**/*.js"],
@@ -106,7 +106,7 @@ module.exports = function(grunt) {
                 ].join("&&"),
                 options: {
                     execOptions: {
-                        maxBuffer: 5000*1024
+                        maxBuffer: 5000 * 1024
                     }
                 }
             },
