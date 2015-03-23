@@ -1,0 +1,37 @@
+{
+  "name": "gpii-android",
+  "description": "Components of the GPII personalization infrastructure for use on Android",
+  "version": "0.0.1",
+  "author": "GPII",
+  "bugs": "http://issues.gpii.net/browse/GPII",
+  "homepage": "http://gpii.net/",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-shell": "0.6.4",
+    "grunt-contrib-jshint": "~0.9.0",
+    "grunt-jsonlint": "1.0.4",
+    "grunt-gpii": "git://github.com/GPII/grunt-gpii.git#a4aca06cbaf7523eb1af56ed65ce6bd30b8ec325"
+  },
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": "http://www.opensource.org/licenses/BSD-3-Clause"
+    }
+  ],
+  "keywords": [
+    "gpii",
+    "accessibility",
+    "settings",
+    "fluid",
+    "IoC",
+    "Inversion of Control",
+    "configuration",
+    "evented"
+  ],
+  "repository": "git://github.com/GPII/android.git",
+  "main": "./index.js",
+  "engines": {
+    "node": ">=0.6.0"
+  }
+}

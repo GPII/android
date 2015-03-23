@@ -1,3 +1,17 @@
+/*
+ * GPII Android Personalization Framework - Font handler
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * The research leading to these results has received funding from the European Union's
+ * Seventh Framework Programme (FP7/2007-2013)
+ * under grant agreement no. 289016.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
+
 package net.gpii;
 
 import android.util.Log;
@@ -40,13 +54,13 @@ public class AndroidFontSettingsImpl extends AndroidFontSettings implements IMod
 
     @Override
     public void stopModule() {
-        Log.v(TAG, "AndroidFontSettingsImpl.stopModule");		
+        Log.v(TAG, "AndroidFontSettingsImpl.stopModule");
     }
 
     @Override
     public void setFontSize(double size) {
         mFontDemoConfig.fontScale = (float) size;
-        Log.v(TAG, "AndroidFontSettingsImpl.setFontSize: " + size);		
+        Log.v(TAG, "AndroidFontSettingsImpl.setFontSize: " + size);
         updatePersistentConfiguration(mFontDemoConfig);
         // try {
         // 	ActivityManagerNative.getDefault().updatePersistentConfiguration(mFontDemoConfig);

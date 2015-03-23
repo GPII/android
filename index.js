@@ -1,8 +1,7 @@
-/*
- * GPII Android Personalization Framework Node.js Bootstrap
+ /*
+ * GPII Android Personalization Framework Node.js Index
  *
  * Copyright 2012 OCAD University
- * Copyright 2013, 2014 Emergya
  * Copyright 2014 Lucendo Development Ltd.
  *
  * Licensed under the New BSD license. You may not use this file except in
@@ -16,8 +15,15 @@
  * https://github.com/GPII/universal/blob/master/LICENSE.txt
  */
 
-var fluid = require("universal"),
-    gpii = fluid.registerNamespace("gpii");
+var fluid = require("universal");
 
-require("./index.js");
-gpii.start();
+fluid.module.register("gpii-android", __dirname, require);
+
+// Settings Handlers & Lifecycle Actions-related modules
+fluid.require("activitymanager", require);
+fluid.require("androidSettings", require);
+fluid.require("audioManager", require);
+fluid.require("persistentConfiguration", require);
+
+// Android Device Reporter
+fluid.require("deviceReporter", require);
