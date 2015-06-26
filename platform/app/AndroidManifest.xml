@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="net.gpii.app"
       android:versionCode="1"
-      android:versionName="1.0">
+      android:versionName="1.1">
       <!-- Temporarily moving to anode until i replace the constants sgithens 2013-07-07 package="net.gpii.app" -->
 
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
@@ -16,6 +16,9 @@
 <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
 <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
 <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+
+<uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" android:required="false"/>
 
 <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 <uses-permission android:name="android.permission.WRITE_SETTINGS" />
