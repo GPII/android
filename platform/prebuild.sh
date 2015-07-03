@@ -24,7 +24,7 @@ else
     mkdir app/libs
 fi
 
-cp anode/app/contrib/jtar-1.0.4.jar app/libs/
+curl -o app/libs/jtar-1.0.4.jar https://jtar.googlecode.com/files/jtar-1.0.4.jar
 
 # Create Assets directory if it doesn't exist yet
 if [ -d 'app/assets' ]; then
@@ -34,11 +34,5 @@ else
 fi
 
 # Fetch node binaries from webinos
-curl -o app/assets/bridge.node https://raw.github.com/webinos/Webinos-Platform/master/webinos/platform/android/app/assets/bridge.node
-curl -o app/assets/libjninode.so https://raw.github.com/webinos/Webinos-Platform/master/webinos/platform/android/app/assets/libjninode.so
-
-# java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./intents/src --classpath ./app/bin/classes net.gpii.AndroidIntentHandler
-
-# java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./a11yservices/src --classpath ./app/bin/classes net.gpii.AndroidA11ySettings
-
-# java -jar ./anode/sdk/java/tools/stubgen.jar --verbose --out ./nativesettings/src --classpath ./app/bin/classes net.gpii.AndroidFontSettings
+curl -o app/assets/bridge.node 'https://gist.githubusercontent.com/javihernandez/b9619af20219417d5a03/raw/1a59be257b2162b2b991b9ace01e992a82df6616/bridge.node'
+curl -o app/assets/libjninode.so 'https://gist.githubusercontent.com/javihernandez/b9619af20219417d5a03/raw/611ed2a158ace788bb75fdfaa3987768a8924a75/libjninode.so'

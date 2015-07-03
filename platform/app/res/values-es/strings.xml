@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GpiiActivity</string>
+
+    <!-- Lifted from Anode sgithens 2013-07-07 -->
+    <!-- <string name="app_name">Anode</string> -->
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="arguments">Arguments:</string>
+    <string name="run_state">Run state</string>
+    <string name="created">Created</string>
+    <string name="started">Started</string>
+    <string name="stopping">Stopping</string>
+    <string name="stopped">Stopped</string>
+    <string name="anode_receiver">Anode Receiver</string>
+    <string name="anode_receiver_description">A broadcast receiver for controlling invocations of node.js</string>
+    <string name="anode_service">Anode Service</string>
+    <string name="anode_service_description">A service that permits the running of node.js invocations in the background</string>
+
+    <!-- UI Manager -->
+    <string name="action_settings">Ajustes</string>
+
+    <string name="gpii_activity_title">Estado:</string>
+    <string name="gpii_status_label">Estado del servicio GPII:</string>
+    <string name="gpii_status_unknown">Desconocido</string>
+    <string name="gpii_status_running">Funcionando</string>
+    <string name="gpii_status_not_running">Apagado</string>
+    <string name="gpii_script_label">Script Node.js a ejecutar:</string>
+    <string name="gpii_controls">Control del servicio GPII</string>
+    <string name="gpii_controls_start">Arrancar</string>
+    <string name="gpii_controls_stop">Parar</string>
+    <string name="gpii_controls_kill">Forzar salida</string>
+    <string name="gpii_default_script_uri">/sdcard/gpii/android/gpii.js</string>
+    <string name="gpii_logo_content">Logo delproyecto GPII</string>
+    <string name="gpii_controls_update_status">Comprobar el estado</string>
+    <string name="waitfor">Por favor, espere hasta que Cloud4All se haya descargado</string>
+    <string name="button_intallation">Instalar Plataforma Cloud4All</string>
+    <string name="button_download">Descargar Plataforma Cloud4All</string>
+
+</resources>

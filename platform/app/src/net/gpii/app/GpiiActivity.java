@@ -57,26 +57,30 @@ import android.widget.Toast;
 @SuppressLint("NewApi")
 public class GpiiActivity extends Activity {
 
-	private boolean isSystemApp;
-	private static String TAG = "Cloud4all";
-	private static String filepathgpii = Environment
-			.getExternalStorageDirectory() + "/";
+    private boolean isSystemApp;
+    private static String TAG = "Cloud4all";
+    private static String filepathgpii = Environment
+        .getExternalStorageDirectory() + "/";
 
 	private boolean higherVersionKitKat = false;
 
 	private static String uriTar = "http://docs.google.com/uc?authuser=0&id=0B9NaK6yZUAngMzdsRDdQWi1rbDg&export=download";
+	
+    private static String gpiiCompatibleAndroidDevicesUrl = "http://wiki.gpii.net/index.php/GPII_Android_Devices_Compatibility_Table";
+    
+    private static String gpiiRootDevicesUrl = "http://wiki.gpii.net/w/List_of_root_devices";
 
-	private static String gpiiJS = "gpii-android.tar.gz";
-	private static String gpiiAPK = "net.gpii.app-1.apk";
+    private static String gpiiJS = "gpii-android.tar.gz";
+    private static String gpiiAPK = "net.gpii.app-1.apk";
 
-	private static String privSystemDir = "/system/priv-app";
-	private static String systemDir = "/system/app";
+    private static String privSystemDir = "/system/priv-app";
+    private static String systemDir = "/system/app";
 
-	private View progressView;
+    private View progressView;
 
-	private WindowManager.LayoutParams progressparams;
+    private WindowManager.LayoutParams progressparams;
 
-	private WindowManager wm;
+    private WindowManager wm;
 
 	public static final int GPII_STATE_RUNNING = 0;
 	public static final int GPII_STATE_NOT_RUNNING = 1;
@@ -93,9 +97,9 @@ public class GpiiActivity extends Activity {
 	private RelativeLayout gpiiInfo;
 
 	private long enqueue;
-	private DownloadManager dm;
+    private DownloadManager dm;
 
-	private AlertDialog.Builder alertDialogBuilder;
+    private AlertDialog.Builder alertDialogBuilder;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -108,7 +112,6 @@ public class GpiiActivity extends Activity {
 			isSystemApp = isSystemPackage(this.getPackageManager()
 					.getApplicationInfo("net.gpii.app", 0));
 		} catch (NameNotFoundException e1) {
-			Log.i("APPSISTEMA", "NO SE ENCUENTRA");
 			e1.printStackTrace();
 		}
 
@@ -352,12 +355,9 @@ public class GpiiActivity extends Activity {
 
 		if (sdkVersion < 14 || sdkVersion > 21) {
 
-			Intent browserIntent = new Intent(
-					Intent.ACTION_VIEW,
-					Uri.parse("http://wiki.gpii.net/index.php/GPII_Android_Devices_Compatibility_Table"));
-			startActivity(browserIntent);
+			launchWebPage(gpiiCompatibleAndroidDevicesUrl);
+
 		}
-		// Log.i(TAG, "Android SDK: " + sdkVersion + " (" + release + ")");
 
 		if (sdkVersion > 18) {
 			higherVersionKitKat = true;
@@ -375,9 +375,7 @@ public class GpiiActivity extends Activity {
 			Log.i(TAG, "Rooted device");
 		} catch (Exception e) {
 			Log.i(TAG, "Not rooted device");
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-					Uri.parse("http://wiki.gpii.net/w/List_of_root_devices"));
-			startActivity(browserIntent);
+			launchWebPage(gpiiRootDevicesUrl);
 		}
 	}
 
@@ -483,7 +481,8 @@ public class GpiiActivity extends Activity {
 				process.waitFor();
 
 			} else {
-				Log.e("ERRORINSTALL", "No existe el apk de gpii");
+				
+				Log.e(TAG, "THERE IS NOT APK");
 			}
 
 		} catch (IOException e) {
@@ -587,5 +586,11 @@ public class GpiiActivity extends Activity {
 
 		return ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
 	}
+	
+    private void launchWebPage(String url){
+    	Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(url));
+		startActivity(browserIntent);
+    }
 
 }

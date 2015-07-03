@@ -18,7 +18,7 @@ include:
 * intents This directory contains the module for launching intents from
   node.js
   
-* nativesettings Module for setting settings that require root access on
-  the device, but do not require the apk to be installed in /system/apps.
+* androidSettings Module for setting settings from Android's
+  Settings.System, Settings.Secure and Settings.Global
   
   
