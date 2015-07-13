@@ -78,7 +78,7 @@ public class GpiiActivity extends Activity {
     private boolean higherVersionKitKat = false;
 
     private static String uriTar = "http://docs.google.com/uc?authuser=0&id=0B9NaK6yZUAngMzdsRDdQWi1rbDg&export=download";
-	
+
     private static String gpiiCompatibleAndroidDevicesUrl = "http://wiki.gpii.net/index.php/GPII_Android_Devices_Compatibility_Table";
     
     private static String gpiiRootDevicesUrl = "http://wiki.gpii.net/w/List_of_root_devices";
@@ -114,15 +114,15 @@ public class GpiiActivity extends Activity {
 
     private AlertDialog.Builder alertDialogBuilder;
 
-	/** Called when the activity is first created. */
-	@Override
-        public void onCreate(Bundle savedInstanceState) {
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         try {
-        isSystemApp = isSystemPackage(this.getPackageManager()
+            isSystemApp = isSystemPackage(this.getPackageManager()
                 .getApplicationInfo("net.gpii.app", 0));
         } catch (NameNotFoundException e1) {
             e1.printStackTrace();
@@ -134,19 +134,19 @@ public class GpiiActivity extends Activity {
         appInstalled("stericson.busybox");
 
         progressparams = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-                | WindowManager.LayoutParams.TYPE_PHONE
-                | WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSLUCENT);
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT | 
+            WindowManager.LayoutParams.TYPE_PHONE |
+            WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+            WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+            PixelFormat.TRANSLUCENT);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         progressView = inflater
-                .inflate(R.layout.progress_download_layout, null);
+            .inflate(R.layout.progress_download_layout, null);
 
         installationButton = (Button)findViewById(R.id.installButton);
         downloadButton = (Button) findViewById(R.id.downloadButton);
@@ -169,38 +169,35 @@ public class GpiiActivity extends Activity {
 
         if (!gpiiApkInstalled("net.gpii.app")) {
             Toast.makeText(getApplicationContext(), "GPII NOT INSTALLED",
-            Toast.LENGTH_LONG).show();
+                Toast.LENGTH_LONG).show();
             downloadButton.setVisibility(View.VISIBLE);
             installationButton.setVisibility(View.GONE);
         }
 
         final BroadcastReceiver receiver = new BroadcastReceiver() {
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-				String action = intent.getAction();
-            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-					long downloadId = intent.getLongExtra(
-							DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-					Query query = new Query();
-					query.setFilterById(enqueue);
-					Cursor c = dm.query(query);
-					if (c.moveToFirst()) {
-						int columnIndex = c
-								.getColumnIndex(DownloadManager.COLUMN_STATUS);
-            if (DownloadManager.STATUS_SUCCESSFUL == c
-								.getInt(columnIndex)) {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                action = intent.getAction();
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                    long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                    Query query = new Query();
+                    query.setFilterById(enqueue);
+                    Cursor c = dm.query(query);
+                    if (c.moveToFirst()) {
+                        int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                        if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
 
-							new ExtractGpiiZipFileSystem().execute();
-
+                            new ExtractGpiiZipFileSystem().execute();
+ 
                         }
                     }
 
                 } else if (action.equals(ACTION_GPII_UNZIP_COMPLETE)) {
 
-					downloadButton.setVisibility(View.GONE);
-					installationButton.setVisibility(View.VISIBLE);
-					wm.removeView(progressView);
+                    downloadButton.setVisibility(View.GONE);
+                    installationButton.setVisibility(View.VISIBLE);
+                    wm.removeView(progressView);
 
                 } 
             }
@@ -212,8 +209,7 @@ public class GpiiActivity extends Activity {
             iae.printStackTrace();
         }
 
-        registerReceiver(receiver, new IntentFilter(
-				DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         registerReceiver(receiver, new IntentFilter(ACTION_GPII_UNZIP_COMPLETE));
 
@@ -235,8 +231,7 @@ public class GpiiActivity extends Activity {
                 wm.addView(progressView, progressparams);
                 dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                 Request request = new Request(Uri.parse(uriTar));
-				request.setDestinationUri(Uri.fromFile(new File(filepathgpii
-						+ gpiiJS)));
+                request.setDestinationUri(Uri.fromFile(new File(filepathgpii + gpiiJS)));
                 enqueue = dm.enqueue(request);
 
             }
@@ -272,14 +267,16 @@ public class GpiiActivity extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-                    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                    ActivityManager manager = 
+                        (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
                     List<RunningAppProcessInfo> services = manager
-							.getRunningAppProcesses();
-					RunningAppProcessInfo process = null;
+                        .getRunningAppProcesses();
+                    RunningAppProcessInfo process = null;
 
                     for (int i = 0; i < services.size(); i++) {
-						process = services.get(i);
+                        process = services.get(i);
                         String name = process.processName;
+
                         if (name.equals("net.gpii.app")) {
                             break;
                         }
@@ -337,20 +334,19 @@ public class GpiiActivity extends Activity {
                 InetAddress address = InetAddress.getByName(GPII_SERVER_HOST);
                 Socket socket = new Socket();
 
-                socket.connect(
-						new InetSocketAddress(address, GPII_SERVER_PORT),
-						CONNECTION_TIMEOUT);
+                socket.connect(new InetSocketAddress(address, GPII_SERVER_PORT),
+                    CONNECTION_TIMEOUT);
 
                 if (socket.isConnected()) {
-					result = GpiiActivity.GPII_STATE_RUNNING;
+                    result = GpiiActivity.GPII_STATE_RUNNING;
                 }
 
                 socket.close();
-                } catch (Exception ex) {
-                    result = GpiiActivity.GPII_STATE_NOT_RUNNING;
-                }
+            } catch (Exception ex) {
+                result = GpiiActivity.GPII_STATE_NOT_RUNNING;
+            }
 
-                return result;
+            return result;
         }
 
         @Override
@@ -429,24 +425,25 @@ public class GpiiActivity extends Activity {
             TarArchiveInputStream tarIn = null;
 
             tarIn = new TarArchiveInputStream(new GzipCompressorInputStream(
-					new BufferedInputStream(new FileInputStream(tarFile))));
+                new BufferedInputStream(new FileInputStream(tarFile))));
 
             TarArchiveEntry tarEntry = tarIn.getNextTarEntry();
             // tarIn is a TarArchiveInputStream
-            while (tarEntry != null) {// create a file with the same name as the
-										// tarEntry
+            while (tarEntry != null) {
+                // create a file with the same name as the
+                // tarEntry
                 File destPath = new File(dest, tarEntry.getName());
                 System.out.println("working: " + destPath.getCanonicalPath());
                 if (tarEntry.isDirectory()) {
                     destPath.mkdirs();
                 } else {
                     destPath.createNewFile();
-                // byte [] btoRead = new byte[(int)tarEntry.getSize()];
+                    // byte [] btoRead = new byte[(int)tarEntry.getSize()];
                     byte[] btoRead = new byte[1024];
                     // FileInputStream fin
                     // = new FileInputStream(destPath.getCanonicalPath());
-                    BufferedOutputStream bout = new BufferedOutputStream(
-							new     FileOutputStream(destPath));
+                    BufferedOutputStream bout = 
+                    new BufferedOutputStream(new FileOutputStream(destPath));
                     int len = 0;
 
                     while ((len = tarIn.read(btoRead)) != -1) {
@@ -467,10 +464,10 @@ public class GpiiActivity extends Activity {
         }
 
     }
-	
+
 
     public static void installGpiiApkIntoSystem(String apkname,
-			String privilegedDir) {
+        String privilegedDir) {
 
         java.lang.Process process;
 
@@ -480,21 +477,21 @@ public class GpiiActivity extends Activity {
 
                 process = Runtime.getRuntime().exec("su");
                 DataOutputStream out = new DataOutputStream(
-						process.getOutputStream());
+                    process.getOutputStream());
                 out.writeBytes("mount -o rw,remount yaffs2 /system\n");
                 out.writeBytes("chmod 777 " + privilegedDir + "\n");
                 out.writeBytes("chmod 777 /data/app/" + apkname + "\n");
                 out.writeBytes("cat /data/app/" + apkname + " > "
-						+ privilegedDir + "/" + apkname + "\n");
+                    + privilegedDir + "/" + apkname + "\n");
                 out.writeBytes("chmod 644 " + privilegedDir + "/" + apkname
-						+ "\n");
+                    + "\n");
                 out.writeBytes("mount -o remount,ro -t yaffs2 /system\n");
                 out.writeBytes("reboot\n");
                 out.flush();
                 process.waitFor();
 
             } else {
-				
+
                 Log.e(TAG, "THERE IS NOT APK");
             }
 
@@ -517,24 +514,25 @@ public class GpiiActivity extends Activity {
 
         // set dialog message
         alertDialogBuilder.setMessage("Click download to download BusyBox")
-        // .setCancelable(false)
-            .setPositiveButton("Download",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								startActivity(new Intent(Intent.ACTION_VIEW,
-										Uri.parse("market://details?id="
-												+ appInstalled)));
-							}
-						})
-				.setNegativeButton("Exit",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
+        .setPositiveButton("Download",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id="
+                        + appInstalled)));
+                }
+            }
+        )
+        .setNegativeButton("Exit",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
 
-								dialog.cancel();
-								GpiiActivity.this.finish();
+                    dialog.cancel();
+                    GpiiActivity.this.finish();
 
-							}
-						});
+                }
+            }
+        );
 
         alertDialogBuilder.create();
 
@@ -598,10 +596,10 @@ public class GpiiActivity extends Activity {
 
         return ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
     }
-	
+
     private void launchWebPage(String url){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse(url));
+            Uri.parse(url));
         startActivity(browserIntent);
     }
 
