@@ -181,7 +181,7 @@ public class GpiiActivity extends Activity {
 
             @Override
             public void onReceive(Context context, Intent intent) {
-                action = intent.getAction();
+                String action = intent.getAction();
                 if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
                     long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
                     Query query = new Query();

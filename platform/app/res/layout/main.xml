@@ -21,92 +21,127 @@
         android:scaleX="0.65"
         android:scaleY="0.65"
         android:contentDescription="@string/gpii_logo_content" />
-
-    <TextView
-        android:id="@+id/textView1"
+        
+    <Button
+        android:id="@+id/installButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="@string/gpii_status_label"
-        android:textStyle="bold"
         android:layout_below="@+id/imageView1"
-        android:layout_marginTop="15dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="92dp"
+        android:visibility="gone"
+        android:text="@string/button_intallation" />
 
-    <TextView
-        android:id="@+id/gpii_status"
+    <RelativeLayout
+        android:id="@+id/gpii_Info"
+        android:visibility="gone" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="@string/gpii_status_unknown"
-        android:textColorHighlight="@android:color/darker_gray" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:text="@string/gpii_script_label"
-        android:layout_marginTop="15dp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/gpii_script_uri"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/TextView01"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:inputType="textUri"
-        android:maxLines="1"
-        android:scrollHorizontally="true"
-        android:text="@string/gpii_default_script_uri" />
-
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/gpii_script_uri"
-        android:layout_below="@+id/gpii_script_uri"
-        android:layout_marginTop="23dp"
-        android:text="@string/gpii_controls"
-        android:textStyle="bold" />
+        android:layout_below="@+id/imageView1">
+    
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/gpii_status_label"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            />
+    
+        <TextView
+            android:id="@+id/gpii_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView1"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/textView1"
+            android:text="@string/gpii_status_unknown"
+            android:textColorHighlight="@android:color/darker_gray"
+            />
+    
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:text="@string/gpii_script_label"
+            android:layout_marginTop="15dp"
+            android:textStyle="bold"
+             />
+    
+        <EditText
+            android:id="@+id/gpii_script_uri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/TextView01"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/TextView01"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:inputType="textUri"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="@string/gpii_default_script_uri"
+             />
+    
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/gpii_script_uri"
+            android:layout_below="@+id/gpii_script_uri"
+            android:layout_marginTop="23dp"
+            android:text="@string/gpii_controls"
+            android:textStyle="bold"
+             />
+    
+        <Button
+            android:id="@+id/gpii_start_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TextView02"
+            android:layout_marginTop="10dp"
+            android:text="@string/gpii_controls_start"
+             />
+    
+        <Button
+            android:id="@+id/gpii_stop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/gpii_start_button"
+            android:layout_toRightOf="@+id/gpii_start_button"
+            android:text="@string/gpii_controls_stop"
+            />
+    
+        <Button
+            android:id="@+id/gpii_kill_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/gpii_stop_button"
+            android:layout_toRightOf="@+id/gpii_stop_button"
+            android:text="@string/gpii_controls_kill"
+            />
+    
+        <Button
+            android:id="@+id/gpii_update_status_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/gpii_kill_button"
+            android:layout_toRightOf="@+id/gpii_kill_button"
+            android:text="@string/gpii_controls_update_status"
+            android:singleLine="true"
+             />
+        
+    </RelativeLayout>
 
     <Button
-        android:id="@+id/gpii_start_button"
+        android:id="@+id/downloadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView02"
-        android:layout_marginTop="10dp"
-        android:text="@string/gpii_controls_start" />
-
-    <Button
-        android:id="@+id/gpii_stop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gpii_start_button"
-        android:layout_toRightOf="@+id/gpii_start_button"
-        android:text="@string/gpii_controls_stop" />
-
-    <Button
-        android:id="@+id/gpii_kill_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gpii_stop_button"
-        android:layout_toRightOf="@+id/gpii_stop_button"
-        android:text="@string/gpii_controls_kill" />
-
-    <Button
-        android:id="@+id/gpii_update_status_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gpii_kill_button"
-        android:layout_toRightOf="@+id/gpii_kill_button"
-        android:text="@string/gpii_controls_update_status"
-        android:singleLine="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/button_download" />
 
 </RelativeLayout>
