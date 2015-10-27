@@ -20,14 +20,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -46,6 +52,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -66,9 +73,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 
 @SuppressLint("NewApi")
 public class GpiiActivity extends Activity {
@@ -80,14 +84,14 @@ public class GpiiActivity extends Activity {
 
     private boolean higherVersionKitKat = false;
 
-    private static String uriTar = "http://docs.google.com/uc?authuser=0&id=0B9NaK6yZUAngMzdsRDdQWi1rbDg&export=download";
+    private static String uriTar;
 
-    private static String gpiiCompatibleAndroidDevicesUrl = "http://wiki.gpii.net/index.php/GPII_Android_Devices_Compatibility_Table";
+    private static String gpiiCompatibleAndroidDevicesUrl;
     
-    private static String gpiiRootDevicesUrl = "http://wiki.gpii.net/w/List_of_root_devices";
+    private static String gpiiRootDevicesUrl;
 
-    private static String gpiiJS = "gpii-android.tar.gz";
-    private static String gpiiAPK = "net.gpii.app-1.apk";
+    private static String gpiiJS;
+    private static String gpiiAPK;
 
     private static String privSystemDir = "/system/priv-app";
     private static String systemDir = "/system/app";
@@ -111,9 +115,13 @@ public class GpiiActivity extends Activity {
     private Button installationButton;
     private Button downloadButton;
     private RelativeLayout gpiiInfo;
+    private File file;
 
     private long enqueue;
     private DownloadManager dm;
+    private boolean tarIncluded = false;
+    private boolean userListenersInstalled = true;
+    private boolean installationUserListenersEnabled = false;
 
     private AlertDialog.Builder alertDialogBuilder;
 
@@ -131,6 +139,7 @@ public class GpiiActivity extends Activity {
             e1.printStackTrace();
         }
 
+        ctx = this;
         wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         getAndroidVersion();
         executeShellCommand("su");
@@ -156,25 +165,92 @@ public class GpiiActivity extends Activity {
 
         gpiiInfo = (RelativeLayout) findViewById(R.id.gpii_Info);
 
-        File file = new File(Environment.getExternalStorageDirectory(), "gpii");
+        file = new File(Environment.getExternalStorageDirectory(), "gpii");
 
-        if (file.exists()) {
-            downloadButton.setVisibility(View.GONE);
-            installationButton.setVisibility(View.VISIBLE);
+        AssetManager assetManager = getResources().getAssets();
+
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setValidating(false);
+            XmlPullParser myxml = factory.newPullParser();
+
+            InputStream raw = assetManager.open("GpiiDataResources.xml");
+            myxml.setInput(raw, null);
+            int eventType = myxml.getEventType();
+        
+            while(eventType != XmlPullParser.END_DOCUMENT) {
+                if(eventType == XmlPullParser.TEXT) {
+                
+                    switch(myxml.getLineNumber()){
+                        case 2:
+                            uriTar = myxml.getText();
+                            break;
+                        case 3:
+                            uriUserListeners = myxml.getText();
+                            break;
+                        case 4:
+                            gpiiCompatibleAndroidDevicesUrl = myxml.getText();
+                            break;
+                        case 5:
+                            gpiiRootDevicesUrl = myxml.getText();
+                            break;
+                        case 6:
+                            gpiiJS = myxml.getText();
+                            break;
+                        case 7:
+                            gpiiAPK = myxml.getText();
+                            break;
+                        case 8:
+                            gpiiUserListenersAPK = myxml.getText();
+                            break;
+                        default:
+                            Log.i(TAG,"Not suported XML entry");
+                            break;
+                    }
+                }
+                eventType = myxml.next();
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
+    
+        try {
+            tarIncluded=true;
+            Arrays.asList(getResources().getAssets().list("")).contains("gpii-android.tar.gz");
+        } catch (IOException e1) {
 
-        if (isSystemApp) {
-
-            downloadButton.setVisibility(View.GONE);
-            installationButton.setVisibility(View.GONE);
-            gpiiInfo.setVisibility(View.VISIBLE);
+            tarIncluded=false;
+            e1.printStackTrace();
         }
+    
+        if(!gpiiApkInstalled("cloud4all.UserListener.NFC")){
+            installGPIIUserListeners();
+            userListenersInstalled = false;
+            installationUserListenersEnabled=true;
+        
+        } else {
 
-        if (!gpiiApkInstalled("net.gpii.app")) {
-            Toast.makeText(getApplicationContext(), "GPII NOT INSTALLED",
-                Toast.LENGTH_LONG).show();
-            downloadButton.setVisibility(View.VISIBLE);
-            installationButton.setVisibility(View.GONE);
+            if (file.exists()) {
+                downloadButton.setVisibility(View.GONE);
+                installationButton.setVisibility(View.VISIBLE);
+            }
+
+            if (isSystemApp) {
+
+                downloadButton.setVisibility(View.GONE);
+                installationButton.setVisibility(View.GONE);
+                gpiiInfo.setVisibility(View.VISIBLE);
+            }
+
+            if (!gpiiApkInstalled("net.gpii.app")) {
+                Toast.makeText(getApplicationContext(), "GPII NOT INSTALLED",
+                    Toast.LENGTH_LONG).show();
+                downloadButton.setVisibility(View.VISIBLE);
+                installationButton.setVisibility(View.GONE);
+            }
+
         }
 
         final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -191,7 +267,14 @@ public class GpiiActivity extends Activity {
                         int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
                         if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
 
-                            new ExtractGpiiZipFileSystem().execute();
+                            if(!userListenersInstalled){
+
+                                userListenersInstalled=true;
+                                userListenersNotInstalledDialog(gpiiUserListenersAPK);
+                            
+                            } else {
+                                new ExtractGpiiZipFileSystem().execute();
+                            }
  
                         }
                     }
@@ -304,6 +387,42 @@ public class GpiiActivity extends Activity {
         checkGPIIServer();
         gpiiStatus.requestFocus();
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(installationUserListenersEnabled){
+            if(tarIncluded){
+            
+                wm.addView(progressView, progressparams);
+                downloadButton.setVisibility(View.GONE);
+                installationButton.setVisibility(View.VISIBLE);
+   
+                new ExtractGpiiZipFileSystem().execute();
+            }
+
+            if (file.exists()) {
+                downloadButton.setVisibility(View.GONE);
+                installationButton.setVisibility(View.VISIBLE);
+            } 
+
+            if (isSystemApp) {
+
+                downloadButton.setVisibility(View.GONE);
+                installationButton.setVisibility(View.GONE);
+                gpiiInfo.setVisibility(View.VISIBLE);
+
+            }
+
+            if (!gpiiApkInstalled("net.gpii.app")&&!tarIncluded) {
+                Toast.makeText(getApplicationContext(), "GPII NOT INSTALLED AND NOT INCLUDED",
+                    Toast.LENGTH_LONG).show();
+                downloadButton.setVisibility(View.VISIBLE);
+                installationButton.setVisibility(View.GONE);
+            }
+            installationUserListenersEnabled=false;
+        }
     }
 
     protected void checkGPIIServer() {
@@ -543,6 +662,42 @@ public class GpiiActivity extends Activity {
 
     }
 
+    private Dialog userListenersNotInstalledDialog(String app) {
+
+        final String appInstalled = app;
+
+        alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setTitle("GPII User Listeners Not Installed");
+
+        alertDialogBuilder.setMessage("Do you want to install GPII User Listeners?")
+            .setPositiveButton("Install",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Intent installUserListenersIntent = new Intent(Intent.ACTION_VIEW);
+                        installUserListenersIntent.setDataAndType(Uri.fromFile(new File(filepathgpii+appInstalled)), "application/vnd.android.package-archive");
+                        installUserListenersIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(installUserListenersIntent);
+                        
+                    }
+                })
+            .setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                        installationUserListenersEnabled=true;
+
+                    }
+                });
+
+        alertDialogBuilder.create();
+
+        return alertDialogBuilder.show();
+
+    }
+
     private class ExtractGpiiZipFileSystem extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -595,6 +750,31 @@ public class GpiiActivity extends Activity {
 
     }
 
+    private File createFileFromInputStream(InputStream inputStream, File f) {
+
+        try{
+            OutputStream outputStream = new FileOutputStream(f);
+            byte buffer[] = new byte[1024];
+            int length = 0;
+
+            while((length=inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer,0,length);
+            } 
+
+            outputStream.close();
+            inputStream.close();
+
+            return f;
+
+        }catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return null;
+    }
+
     private boolean isSystemPackage(ApplicationInfo applicationInfo) {
 
         return ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
@@ -604,6 +784,15 @@ public class GpiiActivity extends Activity {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW,
             Uri.parse(url));
         startActivity(browserIntent);
+    }
+
+    private void installGPIIUserListeners(){
+
+        dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        Request request = new Request(Uri.parse(uriUserListeners));
+        request.setDestinationUri(Uri.fromFile(new File(filepathgpii
+            + gpiiUserListenersAPK)));
+        enqueue = dm.enqueue(request);
     }
 
 }
