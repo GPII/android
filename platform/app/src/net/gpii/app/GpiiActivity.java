@@ -77,6 +77,7 @@ import android.widget.Toast;
 @SuppressLint("NewApi")
 public class GpiiActivity extends Activity {
 
+    private Context ctx;
     private boolean isSystemApp;
     private static String TAG = "Cloud4all";
     private static String filepathgpii = Environment
@@ -92,6 +93,8 @@ public class GpiiActivity extends Activity {
 
     private static String gpiiJS;
     private static String gpiiAPK;
+    private static String uriUserListeners;
+    private static String gpiiUserListenersAPK;
 
     private static String privSystemDir = "/system/priv-app";
     private static String systemDir = "/system/app";
@@ -116,6 +119,7 @@ public class GpiiActivity extends Activity {
     private Button downloadButton;
     private RelativeLayout gpiiInfo;
     private File file;
+    private File userListenersFile;
 
     private long enqueue;
     private DownloadManager dm;
@@ -215,22 +219,37 @@ public class GpiiActivity extends Activity {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
+        userListenersFile = new File(Environment.getExternalStorageDirectory(),gpiiUserListenersAPK);
     
         try {
             tarIncluded=true;
-            Arrays.asList(getResources().getAssets().list("")).contains("gpii-android.tar.gz");
+            Arrays.asList(getResources().getAssets().list("")).contains("gpii-android");
         } catch (IOException e1) {
 
             tarIncluded=false;
             e1.printStackTrace();
         }
     
-        if(!gpiiApkInstalled("cloud4all.UserListener.NFC")){
+        if(!gpiiApkInstalled("cloud4all.UserListener.NFC")&&!userListenersFile.exists()){
             installGPIIUserListeners();
             userListenersInstalled = false;
             installationUserListenersEnabled=true;
         
         } else {
+
+            if(userListenersFile.exists()){
+                userListenersInstalled=true;
+                userListenersNotInstalledDialog(gpiiUserListenersAPK);
+            }
+
+            if(tarIncluded&&!file.exists()){
+                wm.addView(progressView, progressparams);
+                downloadButton.setVisibility(View.GONE);
+                installationButton.setVisibility(View.VISIBLE);
+       
+                new ExtractGpiiZipFileSystem().execute();
+            }    
 
             if (file.exists()) {
                 downloadButton.setVisibility(View.GONE);
@@ -550,20 +569,17 @@ public class GpiiActivity extends Activity {
                 new BufferedInputStream(new FileInputStream(tarFile))));
 
             TarArchiveEntry tarEntry = tarIn.getNextTarEntry();
-            // tarIn is a TarArchiveInputStream
+            
             while (tarEntry != null) {
-                // create a file with the same name as the
-                // tarEntry
+                
                 File destPath = new File(dest, tarEntry.getName());
                 System.out.println("working: " + destPath.getCanonicalPath());
                 if (tarEntry.isDirectory()) {
                     destPath.mkdirs();
                 } else {
                     destPath.createNewFile();
-                    // byte [] btoRead = new byte[(int)tarEntry.getSize()];
                     byte[] btoRead = new byte[1024];
-                    // FileInputStream fin
-                    // = new FileInputStream(destPath.getCanonicalPath());
+                    
                     BufferedOutputStream bout = 
                     new BufferedOutputStream(new FileOutputStream(destPath));
                     int len = 0;
@@ -713,11 +729,23 @@ public class GpiiActivity extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            File fileTar = new File(filepathgpii + gpiiJS);
+            File fileTar = new File(filepathgpii + gpiiJS);;
+            if(tarIncluded){
+            
+                try {
+                    InputStream inputStream = ctx.getResources().getAssets().open("gpii-android");
+                    fileTar = createFileFromInputStream(inputStream,fileTar);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                fileTar = new File(filepathgpii + gpiiJS);
+            }
             File fileDest = new File(filepathgpii);
 
-            gunzip(fileTar, fileDest);
-
+            if(fileTar!=null){
+                gunzip(fileTar, fileDest);
+            } 
             return null;
         }
 
