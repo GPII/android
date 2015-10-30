@@ -19,7 +19,11 @@ var fluid = require("universal");
 
 fluid.module.register("gpii-android", __dirname, require);
 
+// Settings Handlers & Lifecycle Actions-related modules
 fluid.require("activitymanager", require);
 fluid.require("androidSettings", require);
 fluid.require("audioManager", require);
 fluid.require("persistentConfiguration", require);
+
+// Android Device Reporter
+fluid.require("deviceReporter", require);
