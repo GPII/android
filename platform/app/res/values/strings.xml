@@ -33,5 +33,8 @@
     <string name="gpii_default_script_uri">/sdcard/gpii/android/gpii.js</string>
     <string name="gpii_logo_content">Logo of the GPII project</string>
     <string name="gpii_controls_update_status">Check status</string>
+    <string name="waitfor">Please, wait until Cloud4All has been downloaded</string>
+    <string name="button_intallation">Install Cloud4All Platform</string>
+    <string name="button_download">Download Cloud4All Platform</string>
 
 </resources>
