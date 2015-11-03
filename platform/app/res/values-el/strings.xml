@@ -33,5 +33,8 @@
     <string name="gpii_default_script_uri">/sdcard/gpii/android/gpii.js</string>
     <string name="gpii_logo_content">Λογότυπο GPII</string>
     <string name="gpii_controls_update_status">Έλεγχος κατάστασης</string>
+    <string name="waitfor">Παρακαλώ, περιμένετε μέχρι Cloud4All έχει κατεβάσει</string>
+    <string name="button_intallation">Εγκαταστήστε Cloud4All Πλατφόρμα</string>
+    <string name="button_download">Κατεβάστε Cloud4All Πλατφόρμα</string>
 
 </resources>

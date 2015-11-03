@@ -25,6 +25,7 @@ else
 fi
 
 curl -o app/libs/jtar-1.0.4.jar https://jtar.googlecode.com/files/jtar-1.0.4.jar
+curl -o app/libs/commons-compress-1.5.jar http://central.maven.org/maven2/org/apache/commons/commons-compress/1.5/commons-compress-1.5.jar
 
 # Create Assets directory if it doesn't exist yet
 if [ -d 'app/assets' ]; then
